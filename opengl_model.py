@@ -60,7 +60,7 @@ class gl_ob(object):
     self.resize_window_side = 480
     self.initiate()
 
-    self.spe_points = np.load(points_path)
+    self.spe_points = np.load(os.path.join("./colab-pose-VAE", points_path))
 
     self.ox = 3.245938552764519e+02
     self.oy = 2.634932055129686e+02
