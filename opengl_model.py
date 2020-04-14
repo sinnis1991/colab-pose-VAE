@@ -6,7 +6,7 @@ import cv2
 
 import os
 from math import pi,cos,sin
-from read_stl import stl_model
+from read_stl import *
 
 def estimate_3D_to_2D(ox,oy,FocalLength_x,FocalLength_y,a,b,g,x_trans,z_trans,r,points):
 
