@@ -50,8 +50,8 @@ class gl_ob(object):
     self.batch_size = batch_size
 
 
-    self.path = path
-    file = stl_model(path)
+    self.path = os.path.join("./colab-pose-VAE",path)
+    file = stl_model(self.path)
     self.tri = file.tri
 
     self.display_width = 640
