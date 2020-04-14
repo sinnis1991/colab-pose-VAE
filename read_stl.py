@@ -9,19 +9,17 @@ class stl_model(object):
     def __init__(self,path = './model'):
 
         SUPPORTED_EXTENSIONS = ["STL"]
-    	self.path = list(itertools.chain.from_iterable(glob(os.path.join('./model', "*.{}".format(ext))) for ext in SUPPORTED_EXTENSIONS))
-
-    	self.path1 = self.path[0]
+        self.path = list(itertools.chain.from_iterable(glob(os.path.join('./model', "*.{}".format(ext))) for ext in SUPPORTED_EXTENSIONS))
+        self.path1 = self.path[0]
         self.model1 = self.read_file(self.path1)
         self.tri = self.creat_triangles(self.model1,0)
 
-    	for i in range(1,len(self.path)):
+        for i in range(1,len(self.path)):
 
-	        self.path2 = self.path[i]
-	        self.model2 = self.read_file(self.path2 )
-	        self.tri2 = self.creat_triangles(self.model2,i/float(len(self.path)))
-
-	     	self.tri = self.cat_tri(self.tri, self.tri2)
+            self.path2 = self.path[i]
+            self.model2 = self.read_file(self.path2 )
+            self.tri2 = self.creat_triangles(self.model2,i/float(len(self.path)))
+            self.tri = self.cat_tri(self.tri, self.tri2)
 
     def read_file(self,path):
     
@@ -79,18 +77,6 @@ class stl_model(object):
         return triangles
 
     def cat_tri(self, tri1, tri2):
-    	
-    	triangles = tri1+tri2
-    	return triangles
 
-
-
-
-        
-        
-        
-
-
-
-
-
+        triangles = tri1+tri2
+        return triangles
