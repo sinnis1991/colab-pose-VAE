@@ -278,7 +278,7 @@ class gl_ob(object):
     self.pose = np.load(pose_set_path)
     self.pose_len = np.size(self.pose,0)
     self.pose_len = np.size(self.pose,0) 
-    print 'pose_len:{}'.format(self.pose_len)
+    print ('pose_len:{}'.format(self.pose_len))
     a = self.pose_len%batch_size
     if a !=0:
       self.pose = np.concatenate((self.pose,self.pose[:self.batch_size-a,:]))
