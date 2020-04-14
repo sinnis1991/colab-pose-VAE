@@ -45,7 +45,7 @@ def estimate_3D_to_2D(ox,oy,FocalLength_x,FocalLength_y,a,b,g,x_trans,z_trans,r,
 
 class gl_ob(object):
     
-  def __init__(self, width=128, height=128, batch_size=64, path = './model1', points_path = './points1'):
+  def __init__(self, width=128, height=128, batch_size=64, path = 'model1', points_path = 'points1.npy'):
     self.width = width
     self.height = height
     self.batch_size = batch_size
