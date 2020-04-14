@@ -9,7 +9,7 @@ class stl_model(object):
     def __init__(self,path = './model'):
 
         SUPPORTED_EXTENSIONS = ["STL"]
-        self.path = list(itertools.chain.from_iterable(glob(os.path.join('./model', "*.{}".format(ext))) for ext in SUPPORTED_EXTENSIONS))
+        self.path = list(itertools.chain.from_iterable(glob(os.path.join(path, "*.{}".format(ext))) for ext in SUPPORTED_EXTENSIONS))
         self.path1 = self.path[0]
         self.model1 = self.read_file(self.path1)
         self.tri = self.creat_triangles(self.model1,0)
