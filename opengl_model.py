@@ -4,6 +4,7 @@ from OpenGL.GL import *
 from OpenGL.GLU import *
 import cv2
 
+import os
 from math import pi,cos,sin
 from read_stl import stl_model
 
