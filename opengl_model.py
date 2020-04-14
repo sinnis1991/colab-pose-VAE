@@ -249,11 +249,11 @@ class gl_ob(object):
       if if_write:
         cv2.imwrite('outfile_{}.png'.format(i), tmp_arr)
         
-      if option = 'L':
+      if option == 'L':
         window_arr = tmp_arr[0:480, 0:480,  :]
-      elif option = 'M':
+      elif option == 'M':
         window_arr = tmp_arr[0:480, 80:560,  :]
-      elif option = 'R':
+      elif option == 'R':
         window_arr = tmp_arr[0:480, 160:640,  :]
 
       im_clip = cv2.resize(window_arr,(128*2,128*2))
