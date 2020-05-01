@@ -45,10 +45,11 @@ def estimate_3D_to_2D(ox,oy,FocalLength_x,FocalLength_y,a,b,g,x_trans,z_trans,r,
 
 class gl_ob(object):
     
-  def __init__(self, width=128, height=128, batch_size=64, path = 'model1', points_path = 'points1.npy'):
+  def __init__(self, width=128, height=128, batch_size=64, option = 'M', path = 'model1', points_path = 'points1.npy'):
     self.width = width
     self.height = height
     self.batch_size = batch_size
+    self.option =  option
 
 
     self.path = os.path.join("./colab-pose-VAE",path)
@@ -152,10 +153,21 @@ class gl_ob(object):
     window_side = self.resize_window_side
     margin_check_count = 0
 
-    x1 = 160
-    x2 = 640
-    y1 = 0
-    y2 = 480
+    if self.option == 'L':
+      x1 = 0
+      x2 = 480
+      y1 = 0
+      y2 = 480
+    elif self.option == 'M':
+      x1 = 80
+      x2 = 560
+      y1 = 0
+      y2 = 480
+    elif self.option == 'R':
+      x1 = 160
+      x2 = 640
+      y1 = 0
+      y2 = 480
 
     if if_seed==False:
 
@@ -244,6 +256,8 @@ class gl_ob(object):
 
     tmp_arr_set = self.dynamic_sence(A = A, B = B, G = G, X = X, Z = Z, R = R, if_seed = if_seed)
     result = np.zeros((self.batch_size,128,128))
+
+    option = self.option
 
     for i in range(self.batch_size):
       tmp_arr = tmp_arr_set[i]
