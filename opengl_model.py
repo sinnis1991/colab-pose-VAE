@@ -253,7 +253,7 @@ class gl_ob(object):
 
           seed_index = seed_index+1
 
-    return tmp_arr_set
+    return tmp_arr_set, tmp_y_set
     
   def out_put_fast(self,window_side=480,if_write = False, A=[pi/3.,pi/2.], B=[pi,pi/2.*3.], G=[-pi/16.,pi/16.], X=[0.005,0.025], Z=[-0.025,0.005], R=[0.135,0.155], if_seed = False, if_y=False):
 
