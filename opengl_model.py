@@ -257,7 +257,7 @@ class gl_ob(object):
     
   def out_put_fast(self,window_side=480,if_write = False, A=[pi/3.,pi/2.], B=[pi,pi/2.*3.], G=[-pi/16.,pi/16.], X=[0.005,0.025], Z=[-0.025,0.005], R=[0.135,0.155], if_seed = False, if_y=False):
 
-    tmp_arr_set = self.dynamic_sence(A = A, B = B, G = G, X = X, Z = Z, R = R, if_seed = if_seed)
+    tmp_arr_set, tmp_y_set = self.dynamic_sence(A = A, B = B, G = G, X = X, Z = Z, R = R, if_seed = if_seed)
     result = np.zeros((self.batch_size,128,128))
 
     option = self.option
