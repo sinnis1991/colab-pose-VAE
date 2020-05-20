@@ -295,3 +295,131 @@ class gl_ob(object):
     else:
       return result
 
+  def out_put_template_pose(self, A=[pi/3.,pi/2.], B=[pi,pi/2.*3.], G=[-pi/16.,pi/16.], X=[0.005,0.025], Z=[-0.025,0.005], R=[0.135,0.155], a=pi/180., b=pi/180., g=pi/180., x=0.001, z=0.001, r=0.001 ):
+    
+    template_pose =[]
+
+    if self.option == 'L':
+      x1 = 0
+      x2 = 480
+      y1 = 0
+      y2 = 480
+    elif self.option == 'M':
+      x1 = 80
+      x2 = 560
+      y1 = 0
+      y2 = 480
+    elif self.option == 'R':
+      x1 = 160
+      x2 = 640
+      y1 = 0
+      y2 = 480
+
+    a_num = int((A[1]-A[0])/a)+1
+    b_num = int((B[1]-B[0])/b)+1
+    g_num = int((G[1]-G[0])/g)+1
+    x_num = int((X[1]-X[0])/x)+1
+    z_num = int((Z[1]-Z[0])/z)+1
+    r_num = int((R[1]-R[0])/r)+1
+
+    # print(a_num,b_num,g_num,x_num,z_num,r_num)
+
+    for p1 in range(a_num):
+      for p2 in range(b_num):
+        for p3 in range(g_num):
+          for p4 in range(x_num):
+            for p5 in range(z_num):
+              for p6 in range(r_num):
+
+                a_ = A[0]+p1*a
+                b_ = B[0]+p2*b
+                g_ = G[0]+p3*g
+                x_ = X[0]+p4*x
+                z_ = Z[0]+p5*z
+                r_ = R[0]+p6*r
+
+                spe_points2D = estimate_3D_to_2D(self.ox,self.oy,self.FocalLength_x,self.FocalLength_y,\
+                a_,b_,g_,x_,z_,r_,self.spe_points)
+
+                if_window_in = True
+
+                for k in range(np.size(spe_points2D,0)):
+                  u = spe_points2D[k,0]
+                  v = spe_points2D[k,1]
+
+                  if u<x1 or u>=x2 or v<y1 or v>=y2:
+                    if_window_in = False
+                    break
+
+                if if_window_in==True:
+                  template_pose.append([a_,b_,g_,x_,z_,r_])
+
+    idx = np.shape(template_pose)[0]%64
+    if idx !=0:
+      for i in range(64-idx):
+        template_pose.append(template_pose[0])
+
+    self.template_pose = template_pose
+    self.start_idex = 0
+    self.template_pose_num = np.shape(template_pose)[0]//64
+
+    # return template_pose
+
+  def out_put_template_image(self):
+
+    if self.start_idex >=self.template_pose_num:
+      self.start_idex =0
+
+    idx = self.start_idex
+
+    tmp_arr_set = np.zeros((self.batch_size,self.display_width,self.display_height,3))
+    tmp_y_set = np.zeros((self.batch_size,6))
+
+    for i in range(self.batch_size):
+
+      tmp_arr = None
+
+      a = self.template_pose[idx*64+i][0]
+      b = self.template_pose[idx*64+i][1]
+      g = self.template_pose[idx*64+i][2]
+      x = self.template_pose[idx*64+i][3]
+      z = self.template_pose[idx*64+i][4]
+      r = self.template_pose[idx*64+i][5]
+
+      tmp_arr = self.static_sence(a,b,g,x,z,r)
+      tmp_arr_set[i] = tmp_arr
+      tmp_y_set[i] = [a,b,g,x,z,r]
+
+    self.start_idex = self.start_idex+1
+
+    return tmp_arr_set, tmp_y_set
+
+  def out_put_fast_template(self, if_y=False):
+
+    tmp_arr_set, tmp_y_set = self.out_put_template_image()
+    result = np.zeros((self.batch_size,128,128))
+
+    option = self.option
+
+    for i in range(self.batch_size):
+      tmp_arr = tmp_arr_set[i]
+      if option == 'L':
+        window_arr = tmp_arr[ 0:480, 0:480, :]
+      elif option == 'M':
+        window_arr = tmp_arr[ 80:560, 0:480, :]
+      elif option == 'R':
+        window_arr = tmp_arr[ 160:640, 0:480, :]
+
+      im_clip = cv2.resize(window_arr,(128*2,128*2))
+      im_clip = im_clip.astype(np.uint8)
+      canny_im = cv2.Canny(im_clip, 100, 200)
+      kernel = np.ones((2, 2), np.uint8)
+      dilation = cv2.dilate(canny_im, kernel, iterations=1)
+      small = cv2.resize(dilation, (128,128))
+      small = cv2.threshold(small,0,255,cv2.THRESH_BINARY)
+      result[i] = small[1].T
+
+    if if_y:
+      return result,  tmp_y_set
+    else:
+      return result
