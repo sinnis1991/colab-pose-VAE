@@ -406,9 +406,9 @@ class gl_ob(object):
       if option == 'L':
         window_arr = tmp_arr[ 0:480, 0:480, :]
       elif option == 'M':
-        window_arr = tmp_arr[ 80:560, 0:480, :]
+        window_arr = tmp_arr[ 0:480, 80:560 , :]
       elif option == 'R':
-        window_arr = tmp_arr[ 160:640, 0:480, :]
+        window_arr = tmp_arr[ 0:480, 160:640, :]
 
       im_clip = cv2.resize(window_arr,(128*2,128*2))
       im_clip = im_clip.astype(np.uint8)
