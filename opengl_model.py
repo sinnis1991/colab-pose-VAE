@@ -387,7 +387,7 @@ class gl_ob(object):
       r = self.template_pose[idx*64+i][5]
 
       tmp_arr = self.static_sence(a,b,g,x,z,r)
-      tmp_arr_set[i] = tmp_arr
+      tmp_arr_set[i,:,:,:] = tmp_arr
       tmp_y_set[i] = [a,b,g,x,z,r]
 
     self.start_idex = self.start_idex+1
