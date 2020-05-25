@@ -372,7 +372,7 @@ class gl_ob(object):
 
     idx = self.start_idex
 
-    tmp_arr_set = np.zeros((self.batch_size,self.display_width,self.display_height,3))
+    tmp_arr_set = np.zeros((self.batch_size,self.display_height,self.display_width,3))
     tmp_y_set = np.zeros((self.batch_size,6))
 
     for i in range(self.batch_size):
