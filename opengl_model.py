@@ -416,6 +416,7 @@ class gl_ob(object):
       kernel = np.ones((2, 2), np.uint8)
       dilation = cv2.dilate(canny_im, kernel, iterations=1)
       small = cv2.resize(dilation, (128,128))
+      small = np.array([small[-j] for j in range(len(small))])
       small = cv2.threshold(small,0,255,cv2.THRESH_BINARY)
       result[i] = small[1].T
 
