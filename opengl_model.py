@@ -421,7 +421,7 @@ class gl_ob(object):
       small = np.array([small[-j] for j in range(len(small))])
       
       small = cv2.threshold(small,0,255,cv2.THRESH_BINARY)
-      result[i] = small[1].T
+      result[i] = small[1]
 
     if if_y:
       return result,  tmp_y_set
