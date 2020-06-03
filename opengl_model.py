@@ -295,7 +295,8 @@ class gl_ob(object):
     else:
       return result
 
-  def out_put_template_pose(self, A=[pi/3.,pi/2.], B=[pi,pi/2.*3.], G=[-pi/16.,pi/16.], X=[0.005,0.025], Z=[-0.025,0.005], R=[0.135,0.155], a=pi/180., b=pi/180., g=pi/180., x=0.001, z=0.001, r=0.001 ):
+  def out_put_template_pose(self, A=[pi/3.,pi/2.], B=[pi,pi/2.*3.], G=[-pi/16.,pi/16.], X=[0.005,0.025], Z=[-0.025,0.005], R=[0.135,0.155], \
+                            a=pi/180., b=pi/180., g=pi/180., x=0.001, z=0.001, r=0.001, ROUND=False):
     
     template_pose =[]
 
@@ -315,12 +316,20 @@ class gl_ob(object):
       y1 = 0
       y2 = 480
 
-    a_num = int((A[1]-A[0])/a)+1
-    b_num = int((B[1]-B[0])/b)+1
-    g_num = int((G[1]-G[0])/g)+1
-    x_num = int((X[1]-X[0])/x)+1
-    z_num = int((Z[1]-Z[0])/z)+1
-    r_num = int((R[1]-R[0])/r)+1
+    if ROUND:
+      a_num = np.round((A[1]-A[0])/a)
+      b_num = np.round((B[1]-B[0])/b)
+      g_num = np.round((G[1]-G[0])/g)
+      x_num = np.round((X[1]-X[0])/x)
+      z_num = np.round((Z[1]-Z[0])/z)
+      r_num = np.round((R[1]-R[0])/r)
+    else:
+      a_num = int((A[1]-A[0])/a)+1
+      b_num = int((B[1]-B[0])/b)+1
+      g_num = int((G[1]-G[0])/g)+1
+      x_num = int((X[1]-X[0])/x)+1
+      z_num = int((Z[1]-Z[0])/z)+1
+      r_num = int((R[1]-R[0])/r)+1
 
     # print(a_num,b_num,g_num,x_num,z_num,r_num)
 
