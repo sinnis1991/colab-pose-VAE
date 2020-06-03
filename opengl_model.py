@@ -317,12 +317,12 @@ class gl_ob(object):
       y2 = 480
 
     if ROUND:
-      a_num = np.round((A[1]-A[0])/a)
-      b_num = np.round((B[1]-B[0])/b)
-      g_num = np.round((G[1]-G[0])/g)
-      x_num = np.round((X[1]-X[0])/x)
-      z_num = np.round((Z[1]-Z[0])/z)
-      r_num = np.round((R[1]-R[0])/r)
+      a_num = int(np.round((A[1]-A[0])/a))
+      b_num = int(np.round((B[1]-B[0])/b))
+      g_num = int(np.round((G[1]-G[0])/g))
+      x_num = int(np.round((X[1]-X[0])/x))
+      z_num = int(np.round((Z[1]-Z[0])/z))
+      r_num = int(np.round((R[1]-R[0])/r))
     else:
       a_num = int((A[1]-A[0])/a)+1
       b_num = int((B[1]-B[0])/b)+1
