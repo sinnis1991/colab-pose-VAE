@@ -436,3 +436,58 @@ class gl_ob(object):
       return result,  tmp_y_set
     else:
       return result
+
+  def single_canny_im(self,a,b,g,x,z,r):
+
+    if self.option == 'L':
+      x1 = 0
+      x2 = 480
+      y1 = 0
+      y2 = 480
+    elif self.option == 'M':
+      x1 = 80
+      x2 = 560
+      y1 = 0
+      y2 = 480
+    elif self.option == 'R':
+      x1 = 160
+      x2 = 640
+      y1 = 0
+      y2 = 480
+
+    spe_points2D = estimate_3D_to_2D(self.ox,self.oy,self.FocalLength_x,self.FocalLength_y,\
+            a,b,g,x,z,r,self.spe_points)
+
+    if_window_in = True
+
+    for k in range(np.size(spe_points2D,0)):
+      u = spe_points2D[k,0]
+      v = spe_points2D[k,1]
+
+      if u<x1 or u>=x2 or v<y1 or v>=y2:
+        if_window_in = False
+        break
+
+    # assert if_window_in
+    
+    tmp_arr = self.static_sence(a,b,g,x,z,r)
+
+    option = self.option
+
+    if option == 'L':
+      window_arr = tmp_arr[ 0:480, 0:480, :]
+    elif option == 'M':
+      window_arr = tmp_arr[ 80:560, 0:480, :]
+    elif option == 'R':
+      window_arr = tmp_arr[ 160:640, 0:480, :]
+
+    im_clip = cv2.resize(window_arr,(128*2,128*2))
+    im_clip = im_clip.astype(np.uint8)
+    canny_im = cv2.Canny(im_clip, 100, 200)
+    kernel = np.ones((2, 2), np.uint8)
+    dilation = cv2.dilate(canny_im, kernel, iterations=1)
+    small = cv2.resize(dilation, (128,128))
+    small = cv2.threshold(small,0,255,cv2.THRESH_BINARY)
+    result = small[1].T
+
+    return result,if_window_in
