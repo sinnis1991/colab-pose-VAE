@@ -488,6 +488,6 @@ class gl_ob(object):
     dilation = cv2.dilate(canny_im, kernel, iterations=1)
     small = cv2.resize(dilation, (128,128))
     small = cv2.threshold(small,0,255,cv2.THRESH_BINARY)
-    result = small[1].T
+    result = small[1]
 
     return result,if_window_in
